@@ -1,0 +1,23 @@
+<root>
+
+    <!-- characters / dimension -->
+    <include file="exercises/exercise2/argumentAndProperty.xml" />
+
+    <!--
+    TODO: Only "rick" and "morty" plan to travel this time
+     - list them in an Array of Character with id "travelers"
+    -->
+    <node id="travelers" type="Array<exercises.support.Character>">
+    </node>
+
+    <!--
+    TODO: to go in a quick adventure
+     - we have to create a new "portal" to go in Place.THE_GARAGE into dimension "C-137"
+     hint: Portal constructor takes two arguments : 
+        - dimension : exercises.support.Dimension
+        - place : exercises.support.Place
+    -->
+    <node id="portal" type="exercises.support.Portal">
+    </node>
+    
+</root>

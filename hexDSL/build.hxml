@@ -1,0 +1,9 @@
+-lib hexdsl:0.29.1
+-lib hexunit:0.29.1
+
+-cp src
+-cp test
+
+-main Main
+
+--interp
