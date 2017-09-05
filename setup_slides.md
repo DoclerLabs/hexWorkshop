@@ -1,6 +1,6 @@
 ## Environment setup
  - Hands-on workshop
- - `<GitHub url>`
+ - `https://github.com/aliokan/hexWorkshop.git`
 
 <br/>
 
