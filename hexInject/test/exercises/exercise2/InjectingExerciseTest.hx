@@ -43,6 +43,7 @@ class InjectingExerciseTest
 		var returnedPortalGun = exercise.injectingExercise1(rick);
 		Assert.isNotNull(returnedPortalGun, "Portal gun can't be null");
 		Assert.equals(gun, returnedPortalGun, "You must return correct portal gun - not some piece of crap you crafted right now ;)");
+		Assert.equals(gun, rick.portalGun, "Rick doesn't have his portal gun.");
 	}
 	
 	@Test("Unity summons humans")
@@ -64,8 +65,8 @@ class InjectingExerciseTest
 		Assert.equals(Gender.female, human1.gender, "Human must have correct gender");
 		Assert.equals(Gender.female, human2.gender, "Human must have correct gender");
 		
-		injector.unmapClassName(Type.getEnumName(HairColor));
-		injector.unmapClassName(Type.getEnumName(Gender));
+		injector.unmapDependency(new Dependency<HairColor>());
+		injector.unmapDependency(new Dependency<Gender>());
 		injector.mapDependencyToValue(new Dependency<HairColor>(), HairColor.dark);
 		injector.mapDependencyToValue(new Dependency<Gender>(), Gender.male);
 		

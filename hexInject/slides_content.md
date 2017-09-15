@@ -6,18 +6,17 @@
 
 ---
 
-# Introduction to problematic
+# Introduction
 
-## IoC and Dependency injection
- - IoC = Inversion of Control
- - The hollywood principle
- > "Don't call us, we'll call you."
- - Can be also rephrased to - "Don't create your objects, we'll give them to you"
-
+## Dependency injection
+ - Dependency = Object that can be used
+ - Injection = Passing the dependency to an object that would use it  
+ - Supports the dependency inversion principle
+ 
 ---
 
 ### Why?
- - Calling constructor yourself is ...
+ - Managing dependencies yourself is ...
    - ... tying you only to one specific implementation
    - ... forcing you to gather and pass around dependencies of given object
 
@@ -27,13 +26,24 @@
  - What it is?
    - It's an object which holds objects for you and provides them when requested
  - How does it work?
-   - Glorified dictionary
+   - Set of rules/instances
    - Two sides of dependency
-     - `injector.map(X).toY(Z);`
-	   - = "When something asks for X, provide back instance of Z based on the rule Y."
-	 - `injector.getInstance(X);`
-	   - = "Give me X."
-   - Rules = Dependency providers and you can make your own as well
+
+--
+
+## Map
+
+ - `injector.map(X).toY(Z);`
+   - = "When something asks for X, provide back instance of Z based on the rule Y."
+
+ - `injector.map(ISomething).toSingleton(MyClass);` <!-- .element: class="fragment" -->
+
+--
+
+## Get
+
+ - `injector.getInstance(X);`
+   - = "Give me X."
 
 ---
 
@@ -67,8 +77,8 @@
  - `injector.map(X)`
    - `.toSingleton(X)` 
      - Essentially the same thing as value mapping but you don't construct the instance yourself 
-	 - [+] Instance is constructed lazily when something depends on it 
-	 - [-] Instance is constructed lazily sometimes that might be problem
+	 - [+] Instance is constructed lazily
+	 - [-] Instance is constructed lazily
 
 --
 
@@ -98,12 +108,20 @@
 
 # Exercise 1
 
+File: **MappingExercise.hx**
+
+### Cheat sheet
+
  - `injector.map(X)` - creates mapping
  - `injector.map(X, "name")` - creates mapping with name
    - `.toValue(x)` - specific value `x`
    - `.toSingleton(X)` - singleton of `X`
    - `.toType(X)` - new instance of `X` every time
  - `injector.unmap(X)` - removes mapping
+
+--
+
+![rick_and_morty](resource/rick_and_morty.jpg) <!-- .element: style="border: 0; background: None; box-shadow: None; max-height:640px" -->
 
 ---
 
@@ -143,7 +161,12 @@
 
 # Exercise 1_1
 
-- Following exercises are a bit more complicated and for each solution you have to create a new class which implements the `IDependencyProvider` interface
+File: **MappingExercise_1.hx**
+
+### Cheat sheet
+
+ - `injector.map(X)`
+   - `.toProvider(<instance of MyProvider>)`
 
 ```haxe
 class MyProvider implements IDependencyProvider<MyClass>
@@ -166,13 +189,30 @@ class MyProvider implements IDependencyProvider<MyClass>
 ---
 
 ## Mapping dependencies footnotes
+### Different methods providing other possibilities
 
- - Different methods providing other possibilities
-   - `injector.mapClassName(<String>).to...`
-     - You can map everything this way but you have to provide fully qualified type as string
-   - `injector.mapDependency(new Dependency<T>()).to...`
-     - `using hex.di.util.InjectorUtil;`
-	 - Macro driven sytactic sugar for the above
+--
+
+### Single method calls
+ - `injector.mapToClass(...);`
+ - `injector.mapToType(...);`
+ - `injector.mapToValue(...);`
+
+--
+
+### Mapping by class name
+
+ - `injector.mapClassName(<String>).to...`
+   - You can map everything but you have to provide fully qualified type as string
+
+--
+
+### Using `InjectorUtil`
+
+ - `using hex.di.util.InjectorUtil;`
+ 
+ - `injector.mapDependency(new Dependency<T>()).to...` 
+   - Macro driven syntactic sugar for the above
 
 ---
 
@@ -200,7 +240,7 @@ class MyProvider implements IDependencyProvider<MyClass>
 
 ### Safe way to always have an instance
 
- - `injector.getOrCreateNweInstance(X);`
+ - `injector.getOrCreateNewInstance(X);`
    - Useful when you don't know/care whether or not injector has mapping for a given type but you need to be sure you have an instance of a given type
    - Basically `injector.satisfies(X) ? injector.getInstance(X) : injector.instantiateUnmapped(X)`
 
@@ -209,16 +249,20 @@ class MyProvider implements IDependencyProvider<MyClass>
 ### Injecting into existing instance
 
  - `injector.injectInto(x);`
-   - Ususally not used directly but useful when you already have instance which has some dependencies
+   - Usually not used directly but useful when you already have instance which has some dependencies
 
 ---
 
 # Exercise 2
 
- - `injector.getInstance(X);`
- - `injector.instantiateUnmapped(X);`
- - `injector.getOrCreateNweInstance(X);`
- - `injector.injectInto(x);`
+File: **InjectingExercise.hx**
+
+### Cheat sheet
+
+ - `injector.getInstance(X);` - gets instances if it's mapped
+ - `injector.instantiateUnmapped(X);` - gets instantce regardless of mapping
+ - `injector.getOrCreateNewInstance(X);` - either gets instance or makes a new one
+ - `injector.injectInto(x);` - injects into instance
 
 ---
 
@@ -242,16 +286,57 @@ class MyProvider implements IDependencyProvider<MyClass>
 
 ### Supported injection points
 
- - constructor
+ - constructor 
+```haxe
+@Inject public function new(myDependency:SomeClass) {}
+```
  - public variable
+```haxe
+@Inject public var myDependency:SomeClass;
+```
  - public function
+```haxe
+@Inject public function satisfy(myDependency:SomeClass):Void {}
+```
    - *note*: function is always called
      - if injection is optional and a mapping is missing function is called with a null value
  - setter
+ ```haxe
+@Inject public var myDependency(default, set):SomeClass;
+function set_myDependency(myDependency:SomeClass):Void {}
+```
+
+--
+
+## IInjectionContainer
+
+ - "Magic interface" for internal reflection system
+ - Must be implemented
 
 ---
 
 # Exercise 3
+
+File: **all files in exercise3 packages**
+
+### Cheat sheet
+
+ * `implements IInjectorContainer`
+<br />
+<br />
+ * `@Inject`
+ * `@Inject("name")`
+ * `@Optional`
+
+<br />
+
+### Metadata examples
+
+```haxe
+@Inject public var myDependency:SomeClass;
+@Inject public function satisfy(myDependency:SomeClass):Void {}
+@Inject public function new(myDependency:SomeClass) {}
+```
 
 ---
 
@@ -265,7 +350,7 @@ class MyProvider implements IDependencyProvider<MyClass>
    - Annotation for any method
    - Called automatically as a last thing when all dependencies are satisfied
    - *note*: This method is called every time when dependencies are satisfied
-     - (calling Injector.injectInto(x) twoice will invoke the PostConstruct method twice)
+     - (calling Injector.injectInto(x) twice will invoke the PostConstruct method twice)
 
 --
 
@@ -278,6 +363,13 @@ class MyProvider implements IDependencyProvider<MyClass>
 ---
 
 # Exercise 4
+
+File: **all files in exercise4 packages**
+
+### Cheat sheet
+
+ - `@PostConstruct`
+ - `@PreDestroy`
 
 ---
 
@@ -337,3 +429,21 @@ typedef MappingDefinition =
 ---
 
 # Exercise 5
+
+File: **MappingDefinitionExercise.hx**
+
+### Cheat sheet
+
+```haxe
+typedef MappingDefinition =
+{
+	var fromType                : String;
+	@:optional var withName     : String;
+	
+	@:optional var toClass      : Class<Dynamic>;
+	@:optional var toValue      : Any;
+	
+	@:optional var asSingleton  : Bool;
+	@:optional var injectInto   : Bool;
+}
+```
