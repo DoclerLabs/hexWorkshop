@@ -1,9 +1,10 @@
--lib hexdsl:0.29.1
--lib hexunit:0.29.1
+-lib hexdsl:0.29.2
+-lib hexunit:0.29.2
 
 -cp src
 -cp test
 
 -main Main
 
+#-D dump=pretty
 --interp

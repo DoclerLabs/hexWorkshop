@@ -1,0 +1,21 @@
+@context()
+{
+    /**
+     * Exercise 2.1
+     * TODO: "rick" and "morty" want to travel
+     * First of all, we have to create a new Array of Character, called "travelers". 
+     * and put "rick" and "morty" on it. 
+     */
+    rick = new exercises.support.Character("Rick");
+    morty = new exercises.support.Character("Morty");
+
+    /**
+     * Exercise 2.2
+     * TODO: Rick want to go in Place.THE_GARAGE into Dimension.C137
+     * We have to create a new Portal, called "portal". 
+     * hint: exercises.support.Portal takes two arguments in constructor : 
+     *   - dimension : exercises.support.Dimension
+     *   - place : exercises.support.Place
+     */
+
+}

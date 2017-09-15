@@ -1,5 +1,7 @@
 package exercises.support;
 
+import exercises.support.Dimension;
+
 class Character
 {
     public var name(default, null):String;

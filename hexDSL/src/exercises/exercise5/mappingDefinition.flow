@@ -1,0 +1,28 @@
+@context()
+{
+    /**
+     * Exercise 5.1
+     * TODO: 
+     * In an Array of hex.di.mapping.MappingDefinition, named 'mappings1', you have to map:
+     *  - fromType: function signature "String->exercises.support.Solution", toValue: rick.getDefaultSolution
+     *  - fromType: "String", withName: "problem", toValue: mayoProblem
+     * Create a new instance of exercises.support.JerryWithProblem, named 'jerryC137' 
+     * and give him 'mappings1' as first constructor argument
+     */
+    rick = new exercises.support.Rick();
+    mayoProblem = "Mayo jar is closed!";
+
+
+    /**
+     * Exercise 5.2
+     * TODO:  
+     * In an Array of hex.di.mapping.MappingDefinition, named 'mappings2', you have to map:
+     *  - fromType: function signature "String->exercises.support.Solution", toValue: meeseek.fullfillProphecy
+     *  - fromType: "String", withName: "problem", toValue: golfProblem
+     * Create a new instance of exercises.support.JerryWithProblem, named 'jerryC132' 
+     * and give him 'mappings2' as first constructor argument
+     */
+    meeseek = exercises.support.MeeseeksBox.getInstance().pressButton();
+    golfProblem = "Want knock two strokes off his golf game";
+
+}

@@ -1,0 +1,12 @@
+@context()
+// Include another flow file on current file
+// reference.flow contains declaration of rick, morty, dimension, travelers, portal
+@include( 'exercises/exercise2/reference.flow' )
+{
+    /**
+     * Exercise 3.1
+     * TODO: Time for "travelers" to jump in the "portal". 
+     * hint: `exercises.support.Portal` has a public method `jump( travelers : Array<Character> )`
+     */
+
+}

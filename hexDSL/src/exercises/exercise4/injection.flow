@@ -1,0 +1,24 @@
+@context()
+{
+    /**
+     * Exercise 4.1
+     * TODO: "rick' and "morty" have to be mapped in context injector
+     */
+
+    rick = new exercises.support.Character("Rick");
+
+    morty = new exercises.support.Character("Morty");
+
+    /**
+     * Exercise 4.2
+     * TODO: Time to inject "rick' and "morty"!
+     * hint: exercises.support.RickAndMorty has two properties :
+     *  @Inject("rick")
+     *  public var rick:Character;
+     *  
+     *  @Inject("morty")
+     *  public var morty:Character;
+     */
+
+    rickandmorty = new exercises.support.RickAndMorty();
+}
