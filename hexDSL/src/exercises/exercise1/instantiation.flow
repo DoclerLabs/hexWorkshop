@@ -5,7 +5,7 @@
      * TODO: First of all, we need 3 Characters : 
      *    - "rick" with name "Rick", 
      *    - "morty" with name "Morty", 
-     *    - "summer" with name "Morty". 
+     *    - "summer" with name "Summer". 
      * 
      * hint: constructor of exercises.support.Character takes name as first argument.
      */
